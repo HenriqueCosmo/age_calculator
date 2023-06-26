@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  
+  <link rel="stylesheet" href="style.css">
+  <title>Frontend Mentor | Age calculator app</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  
+</head>
+<body>
+<section id="card">
+  
+    <form>
+      <label for="iday">Day</label>
+      <label for="imonth">Month</label>
+      <label for="iyear">Year</label>
+
+      <input id="iday" type="text" placeholder="DD" min="1" max="30">
+      <input id="imonth" type="text" placeholder="MM" min="1" max="12">
+      <input id="iyear" type="text" placeholder="YYYY" >
+    </form>
+    <div class="custom_line">
+      <button onclick="calcularData()">
+        <span class="material-symbols-outlined">
+          arrow_drop_down_circle
+          </span>
+      </button>
+    </div>
+    <div class="valores">
+      <p class="days_month_years"><span id="valoresDia">--</span> Days</p>
+      <p class="days_month_years"><span id="valoresMes">--</span> Months</p>
+      <p class="days_month_years"><span id="valoresAno">--</span> Years</p>
+    </div>
+</section>
+  
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Henrique Cosmo</a>.
+  </div>
+
+  <script>
+    function calcularData(){
+      //resgate de valores dos inputs
+      var dia = document.getElementById('iday').value;
+      var mes = document.getElementById('imonth').value;
+      var ano = document.getElementById('iyear').value; 
+
+      //caso esteja dentro dos parametros abaixo irá realizar a condição que possui uma função em seguida 
+      if(dia >= 1 && dia <= 31 && mes >= 1 && mes <= 12 && ano.length == 4){
+        var DataNasc = new Date(ano, mes - 1, dia);
+        var idade = calcularIdade(DataNasc);
+
+        var spanDias = document.getElementById('valoresDia');
+        var spanMeses = document.getElementById('valoresMes');
+        var spanAnos = document.getElementById('valoresAno');
+
+        spanDias.innerText = idade.dias;
+        spanMeses.innerText = idade.meses;
+        spanAnos.innerText = idade.anos;
+      } else {
+        alert('Data incorreta');
+      }
+    }
+    //função do calculo da idade 
+    function calcularIdade(dataNascimento){
+      var hoje = new Date();
+      var nasc = new Date(dataNascimento);
+
+      //calculo para verificar a idade em relação ao ano, mes e dia de nascimento
+      var idadeAnos = hoje.getFullYear() - nasc.getFullYear();
+      var idadeMeses = hoje.getMonth() - nasc.getMonth();
+      var idadeDias = hoje.getDate() - nasc.getDate();
+
+      //verifica se a pessoa já fez aniversário esse ano
+      if (idadeMeses < 0 || (idadeMeses === 0 && idadeDias < 0)) {
+        idadeAnos--; // Ainda não fez aniversário no ano atual
+        idadeMeses += 12; // Adiciona 12 meses para compensar
+      }
+
+      return {
+        anos: idadeAnos,
+        meses: idadeMeses,
+        dias: idadeDias
+      };
+    }
+  </script>
+</body>
+</html>
